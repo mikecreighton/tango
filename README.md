@@ -27,3 +27,9 @@ View the `[TODO.md](TODO.md)` to see what I'm thinking of (and what I'm not thin
 
 - The `p5PointerEvents` class will eventually become a `p5.js` library to more easily handle events from a pen tablet or pen display. I'm just using this repo to evolve its functionality and design until it feels right, at which point I'll create a separate repo for it.
 - I had a heck of a time getting a simple project set up with hot reloading of the browser. Modern web tooling is such a pain. I really wanted to use this as an opportunity to learn some ES6 and modern Javascript development, but a few hours in and I realized I was letting the tooling setup get in the way of actually writing code.
+
+# License
+
+[ISC](https://opensource.org/licenses/ISC)
+
+Copyright 2022 Mike Creighton
