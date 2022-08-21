@@ -17,9 +17,11 @@ class p5PointerEvents {
         // this._lastTime = Date.now();
         // this._currTime = this._lastTime;
 
-        window.addEventListener('pointerdown', this._onPointerDown.bind(this));
-        window.addEventListener('pointermove', this._onPointerMove.bind(this));
-        window.addEventListener('pointerup', this._onPointerUp.bind(this));
+        this._pointerDownBind = this._onPointerDown.bind(this);
+        window.addEventListener('pointerdown', this._pointerDownBind);
+        this._pointerUpBind = this._onPointerUp.bind(this);
+        window.addEventListener('pointerup', this._pointerUpBind);
+        this._pointerMoveBind = null;
     }
 
     _updatePointer() {
@@ -47,12 +49,16 @@ class p5PointerEvents {
                 this._incomingX = e.clientX;
                 this._incomingY = e.clientY;
                 this._sketch.pointerDown(e);
+
+                // Start watching the pointer as it moves
+                this._pointerMoveBind = this._onPointerMove.bind(this)
+                window.addEventListener('pointermove', this._pointerMoveBind);
             }
         }
     }
 
     _onPointerMove(e) {
-        if(this._isValid(e) && this.isDown) {
+        if(this._isValid(e) && this.isDown && e.buttons === 1) {
             this._incomingX = e.clientX;
             this._incomingY = e.clientY;
             this._incomingEvent = e;
@@ -61,6 +67,10 @@ class p5PointerEvents {
 
     _onPointerUp(e) {
         if(this._isValid(e)) {
+            if(this._pointerMoveBind !== null) {
+                window.removeEventListener('pointermove', this._pointerMoveBind);
+            }
+            this._pointerMoveBind = null;
             this.isDown = false;
             this._sketch.pointerUp(e);
         }

@@ -17,7 +17,7 @@ let myp5 = new p5((s) => {
       // let dist = s.dist(p.currX, p.currY, p.lastX, p.lastY);
       // let normalizedDist = dist / 100;
       let strokeWeight = 1 + 20 * s.pow(pressure, 4);
-      console.log(pressure);
+      // console.log(pressure);
       s.strokeWeight(strokeWeight);
       s.line(p.currX, p.currY, p.lastX, p.lastY);
     }
