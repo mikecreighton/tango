@@ -16,8 +16,13 @@ Additionally, this project is meant to be an ongoing experiment that brings me b
 
 # Development Workflow
 
-1. Run `gulp` from the command line to start a local server with hot reloading.
+1. Run `npm run start` from the command line to start a local server with hot reloading.
 2. Write code and make art.
+
+# Building for Production
+
+1. Run `npm run build` from the command line to build a release which is output to the `./dist` directory.
+2. Share it with your friends on the internet.
 
 ## TODOs
 

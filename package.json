@@ -5,7 +5,7 @@
   "source": "index.html",
   "scripts": {
     "start": "parcel src/index.html --open",
-    "build": "parcel build index.html"
+    "build": "parcel build src/index.html"
   },
   "author": "Mike Creighton <mike@mikecreighton.com> (https://www.mikecreighton.com/)",
   "license": "ISC",
