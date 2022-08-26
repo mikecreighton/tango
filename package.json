@@ -2,20 +2,23 @@
   "name": "Tango",
   "version": "0.1.0",
   "description": "A digital painting program where artwork creation is a collaborative process with the computer.",
-  "main": "index.js",
+  "source": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel src/index.html --open",
+    "build": "parcel build src/index.html"
   },
-  "author": "Mike Creighton",
+  "author": "Mike Creighton <mike@mikecreighton.com> (https://www.mikecreighton.com/)",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikecreighton/tango.git"
+  },
+  "dependencies": {
+    "@types/p5": "^1.4.2",
+    "p5": "^1.4.2"
+  },
   "devDependencies": {
-    "browser-sync": "^2.27.10",
-    "cssnano": "^5.1.13",
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-postcss": "^9.0.1",
-    "gulp-sass": "^5.1.0",
-    "postcss": "^8.4.16",
-    "sass": "^1.54.5"
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7.0"
   }
 }
