@@ -19,10 +19,14 @@ export default class P5PointerEvents {
     lastY: number;
     currX: number;
     currY: number;
+    _canvas: HTMLElement;
     _incomingX: number;
     _incomingY: number;
     _incomingEvent: any;
     _sketch: p5;
+    _pointerDownBind: EventListenerOrEventListenerObject;
+    _pointerMoveBind: EventListenerOrEventListenerObject | null;
+    _pointerUpBind: EventListenerOrEventListenerObject;
 
     constructor(p5Instance: p5, renderer: p5.Renderer) {
         p5Instance.registerMethod('pre', this._updatePointer.bind(this));
@@ -41,9 +45,11 @@ export default class P5PointerEvents {
 
         const canvas = document.getElementById(renderer.id());
         if(canvas !== null) {
-            canvas.addEventListener('pointerdown', this._onPointerDown.bind(this));
-            canvas.addEventListener('pointermove', this._onPointerMove.bind(this));
-            canvas.addEventListener('pointerup', this._onPointerUp.bind(this));
+            this._canvas = canvas;
+            this._pointerDownBind = this._onPointerDown.bind(this);
+            canvas.addEventListener('pointerdown', this._pointerDownBind);
+            this._pointerUpBind = this._onPointerUp.bind(this);
+            canvas.addEventListener('pointerup', this._pointerUpBind);
         } else {
             console.error("No valid canvas was found for attaching pointer events.");
         }
@@ -76,12 +82,18 @@ export default class P5PointerEvents {
                 this._incomingX = e.clientX;
                 this._incomingY = e.clientY;
                 this._sketch.pointerDown?.(e);
+
+                // Start watching the pointer as it moves
+                this._pointerMoveBind = this._onPointerMove.bind(this)
+                if(this._pointerMoveBind !== null) {
+                    this._canvas.addEventListener('pointermove', this._pointerMoveBind);
+                }
             }
         }
     }
 
     _onPointerMove(e: PointerEvent) {
-        if(this._isValid(e) && this.isDown) {
+        if(this._isValid(e) && this.isDown && e.buttons === 1) {
             this._incomingX = e.clientX;
             this._incomingY = e.clientY;
             this._incomingEvent = e;
@@ -90,6 +102,10 @@ export default class P5PointerEvents {
 
     _onPointerUp(e: PointerEvent) {
         if(this._isValid(e)) {
+            if(this._pointerMoveBind !== null) {
+                this._canvas.removeEventListener('pointermove', this._pointerMoveBind);
+            }
+            this._pointerMoveBind = null;
             this.isDown = false;
             this._sketch.pointerUp?.(e);
         }
